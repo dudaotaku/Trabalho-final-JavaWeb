@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventosPro</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div id="login-screen">
+    <div class="login-card">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div
+          style="width:52px;height:52px;background:#3b82f6;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+          <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h1 style="font-size:22px;font-weight:700;color:#0f172a;">EventosPro</h1>
+        <p style="font-size:14px;color:#64748b;margin-top:4px;">Faça login para continuar</p>
+      </div>
+      <div class="form-group">
+        <label class="label">Usuário</label>
+        <input class="input" id="login-user" type="text" placeholder="Digite seu usuário" />
+      </div>
+      <div class="form-group">
+        <label class="label">Senha</label>
+        <input class="input" id="login-pass" type="password" placeholder="Digite sua senha" />
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:10px;font-size:15px;margin-top:8px;"
+        onclick="doLogin()">Entrar</button>
+      <p id="login-error" style="color:#ef4444;font-size:13px;text-align:center;margin-top:10px;display:none;">Usuário
+        ou senha inválidos</p>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div style="padding:20px;border-bottom:1px solid #1e293b;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div
+          style="width:36px;height:36px;background:#3b82f6;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <p style="color:white;font-weight:600;font-size:15px;">EventosPro</p>
+          <p style="color:#475569;font-size:12px;" id="sidebar-user">admin</p>
+        </div>
+      </div>
+    </div>
+    <nav style="padding:12px 0;">
+      <div class="nav-item active" onclick="showPage('dashboard')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showPage('eventos')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Eventos
+      </div>
+      <div class="nav-item" onclick="showPage('participantes')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+        </svg>
+        Participantes
+      </div>
+      <div class="nav-item" id="nav-inscricoes" onclick="showPage('inscricoes')" style="display:none;">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>
+        Inscrições
+      </div>
+      <div class="nav-item" id="nav-usuarios" onclick="showPage('usuarios')" style="display:none;">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        Usuários
+      </div>
+    </nav>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;">
+      <div class="nav-item" onclick="doLogout()">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
+        </svg>
+        Sair
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="page active" id="page-dashboard">
+      <div style="margin-bottom:2rem;">
+        <h1 class="page-title" id="dash-titulo">Dashboard</h1>
+        <p class="page-subtitle" id="dash-subtitulo">Carregando informações...</p>
+      </div>
+
+      <div id="dash-perfil-user"
+        style="display:none;background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.5rem;margin-bottom:1.5rem;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div
+            style="width:56px;height:56px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#1d4ed8;"
+            id="dash-avatar">?</div>
+          <div>
+            <p style="font-weight:700;font-size:18px;color:#0f172a;" id="dash-nome-user">-</p>
+            <p style="font-size:14px;color:#64748b;" id="dash-email-user">-</p>
+            <span class="badge badge-blue" id="dash-perfil-badge" style="margin-top:4px;">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="dash-stats-admin" style="display:none;">
+        <div
+          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:1.5rem;">
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Total de Eventos</p>
+                <p class="stat-value" style="color:#3b82f6;" id="dash-eventos">0</p>
+              </div>
+              <div style="background:#dbeafe;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Participantes</p>
+                <p class="stat-value" style="color:#22c55e;" id="dash-participantes">0</p>
+              </div>
+              <div style="background:#dcfce7;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Inscrições</p>
+                <p class="stat-value" style="color:#8b5cf6;" id="dash-inscricoes">0</p>
+              </div>
+              <div style="background:#ede9fe;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Usuários</p>
+                <p class="stat-value" style="color:#f59e0b;" id="dash-usuarios">0</p>
+              </div>
+              <div style="background:#fef3c7;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h2 style="font-size:16px;font-weight:600;margin-bottom:1rem;">Todos os Eventos</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Local</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody id="dash-eventos-table">
+              <tr>
+                <td colspan="4" style="text-align:center;color:#94a3b8;padding:2rem;">Carregando...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="dash-stats-user" style="display:none;">
+
+        <div
+          style="background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div
+              style="width:56px;height:56px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#1d4ed8;"
+              id="dash-avatar-part">?</div>
+            <div>
+              <p style="font-weight:700;font-size:18px;color:#0f172a;" id="dash-nome-part">-</p>
+              <p style="font-size:14px;color:#64748b;" id="dash-email-part">-</p>
+              <span class="badge badge-blue" style="margin-top:4px;">USER</span>
+            </div>
+          </div>
+          <p id="dash-sem-participante"
+            style="display:none;color:#94a3b8;font-size:14px;margin-top:1rem;text-align:center;">
+            Nenhum participante vinculado à sua conta.
+          </p>
+        </div>
+
+        <div
+          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:1.5rem;">
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Meus Eventos</p>
+                <p class="stat-value" style="color:#3b82f6;" id="dash-meus-eventos">0</p>
+              </div>
+              <div style="background:#dbeafe;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <p class="stat-label">Total de Eventos</p>
+                <p class="stat-value" style="color:#22c55e;" id="dash-total-eventos-user">0</p>
+              </div>
+              <div style="background:#dcfce7;border-radius:10px;padding:8px;">
+                <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:16px;font-weight:600;margin-bottom:1rem;">Meus Eventos Inscritos</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Local</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody id="dash-meus-eventos-table">
+              <tr>
+                <td colspan="4" style="text-align:center;color:#94a3b8;padding:2rem;">Carregando...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-eventos">
+      <div class="action-bar">
+        <div>
+          <h1 class="page-title">Eventos</h1>
+          <p class="page-subtitle">Gerencie os eventos cadastrados</p>
+        </div>
+        <button class="btn btn-primary" id="btn-novo-evento" onclick="openModal('modal-evento')">+ Novo Evento</button>
+      </div>
+      <div class="card">
+        <div class="search-bar" style="margin-bottom:1rem;">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input class="input" id="search-eventos" placeholder="Buscar eventos..." oninput="filterEventos()" />
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Data</th>
+              <th>Local</th>
+              <th>Vagas</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="eventos-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-participantes">
+      <div class="action-bar">
+        <div>
+          <h1 class="page-title">Participantes</h1>
+          <p class="page-subtitle">Gerencie os participantes cadastrados</p>
+        </div>
+        <button class="btn btn-primary" id="btn-novo-part" onclick="openModal('modal-participante')">+ Novo
+          Participante</button>
+      </div>
+      <div class="card">
+        <div class="search-bar" style="margin-bottom:1rem;">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input class="input" id="search-participantes" placeholder="Buscar participantes..."
+            oninput="filterParticipantes()" />
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Usuário</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="participantes-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-inscricoes">
+      <div class="action-bar">
+        <div>
+          <h1 class="page-title">Inscrições</h1>
+          <p class="page-subtitle">Gerencie as inscrições em eventos</p>
+        </div>
+        <button class="btn btn-primary" id="btn-nova-insc" onclick="openModal('modal-inscricao')">+ Nova
+          Inscrição</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Evento</th>
+              <th>Participante</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="inscricoes-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="page" id="page-usuarios">
+      <div class="action-bar">
+        <div>
+          <h1 class="page-title">Usuários</h1>
+          <p class="page-subtitle">Gerencie os usuários do sistema</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-usuario')">+ Novo Usuário</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Login</th>
+              <th>Perfil</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="usuarios-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="modal-overlay" id="modal-evento">
+    <div class="modal">
+      <h2 class="modal-title" id="modal-evento-title">Novo Evento</h2>
+      <input type="hidden" id="evento-id" />
+      <div class="form-group"><label class="label">Nome *</label><input class="input" id="evento-nome"
+          placeholder="Nome do evento" /></div>
+      <div class="form-group"><label class="label">Descrição</label><textarea class="input" id="evento-descricao"
+          rows="3" placeholder="Descrição do evento"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label class="label">Data *</label><input class="input" id="evento-data" type="date" />
+        </div>
+        <div class="form-group"><label class="label">Vagas *</label><input class="input" id="evento-vagas" type="number"
+            placeholder="0" min="1" /></div>
+      </div>
+      <div class="form-group"><label class="label">Local *</label><input class="input" id="evento-local"
+          placeholder="Local do evento" /></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-evento')">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarEvento()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-participante">
+    <div class="modal">
+      <h2 class="modal-title" id="modal-part-title">Novo Participante</h2>
+      <input type="hidden" id="part-id" />
+      <div class="form-group"><label class="label">Nome *</label><input class="input" id="part-nome"
+          placeholder="Nome completo" /></div>
+      <div class="form-group"><label class="label">E-mail *</label><input class="input" id="part-email" type="email"
+          placeholder="email@exemplo.com" /></div>
+      <div class="form-group">
+        <label class="label">Vincular Usuário</label>
+        <select class="input" id="part-usuario">
+          <option value="">Sem vínculo</option>
+        </select>
+        <p style="font-size:12px;color:#94a3b8;margin-top:4px;">Vincule este participante a um usuário do sistema</p>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-participante')">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarParticipante()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-inscricao">
+    <div class="modal">
+      <h2 class="modal-title">Nova Inscrição</h2>
+      <div class="form-group">
+        <label class="label">Evento *</label>
+        <select class="input" id="insc-evento">
+          <option value="">Selecione um evento</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="label">Participante *</label>
+        <select class="input" id="insc-participante">
+          <option value="">Selecione um participante</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-inscricao')">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarInscricao()">Inscrever</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-usuario">
+    <div class="modal">
+      <h2 class="modal-title" id="modal-user-title">Novo Usuário</h2>
+      <input type="hidden" id="user-id" />
+      <div class="form-group"><label class="label">Login *</label><input class="input" id="user-login"
+          placeholder="Nome de usuário" /></div>
+      <div class="form-group"><label class="label">Senha *</label><input class="input" id="user-senha" type="password"
+          placeholder="Senha" /></div>
+      <div class="form-group">
+        <label class="label">Perfil *</label>
+        <select class="input" id="user-perfil">
+          <option value="0">ADMIN</option>
+          <option value="1">USER</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-usuario')">Cancelar</button>
+        <button class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-detalhe-evento">
+    <div class="modal" style="width:580px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <h2 class="modal-title" style="margin:0;" id="detalhe-evento-titulo">Detalhes do Evento</h2>
+        <span
+          style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">SOMENTE
+          LEITURA</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem;">
+        <div style="background:#f8fafc;border-radius:8px;padding:12px;">
+          <p style="font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Nome</p>
+          <p style="font-weight:600;color:#0f172a;" id="detalhe-evento-nome">-</p>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:12px;">
+          <p style="font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Data</p>
+          <p style="font-weight:600;color:#0f172a;" id="detalhe-evento-data">-</p>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:12px;">
+          <p style="font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Local</p>
+          <p style="font-weight:600;color:#0f172a;" id="detalhe-evento-local">-</p>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:12px;">
+          <p style="font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Vagas
+            disponíveis</p>
+          <p style="font-weight:700;font-size:20px;" id="detalhe-evento-vagas">-</p>
+        </div>
+      </div>
+      <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:1.5rem;">
+        <p style="font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Descrição
+        </p>
+        <p style="color:#475569;" id="detalhe-evento-descricao">-</p>
+      </div>
+      <div style="border-top:1px solid #f1f5f9;padding-top:1rem;">
+        <p style="font-size:13px;font-weight:600;color:#475569;margin-bottom:10px;">Participantes inscritos</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+            </tr>
+          </thead>
+          <tbody id="detalhe-evento-participantes"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:1.5rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-detalhe-evento')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-detalhe-participante">
+    <div class="modal" style="width:580px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <h2 class="modal-title" style="margin:0;">Detalhes do Participante</h2>
+        <span
+          style="background:#dbeafe;color:#1d4ed8;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">SOMENTE
+          LEITURA</span>
+      </div>
+      <div
+        style="display:flex;align-items:center;gap:16px;margin-bottom:1.5rem;background:#f8fafc;border-radius:12px;padding:16px;">
+        <div
+          style="width:52px;height:52px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-weight:700;color:#1d4ed8;font-size:20px;"
+          id="detalhe-part-avatar">-</div>
+        <div>
+          <p style="font-weight:700;font-size:18px;color:#0f172a;" id="detalhe-part-nome">-</p>
+          <p style="font-size:14px;color:#64748b;" id="detalhe-part-email">-</p>
+        </div>
+      </div>
+      <div style="border-top:1px solid #f1f5f9;padding-top:1rem;">
+        <p style="font-size:13px;font-weight:600;color:#475569;margin-bottom:10px;">Eventos inscritos</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Data</th>
+              <th>Local</th>
+              <th>Vagas</th>
+            </tr>
+          </thead>
+          <tbody id="detalhe-part-eventos"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:1.5rem;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-detalhe-participante')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-erro">
+    <div class="modal" style="width:400px;text-align:center;">
+      <div
+        style="width:52px;height:52px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+        <svg width="24" height="24" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <h2 style="font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px;" id="modal-erro-titulo">Erro</h2>
+      <p style="color:#64748b;font-size:14px;margin-bottom:1.5rem;" id="modal-erro-msg">Ocorreu um erro.</p>
+      <button class="btn btn-danger" style="width:100%;padding:10px;"
+        onclick="closeModal('modal-erro')">Entendi</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</body>
+<script src="index.js"></script>
+
+</html>

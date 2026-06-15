@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS usuarios (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    perfil INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS participantes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    usuario_id BIGINT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS eventos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    data DATE NOT NULL,
+    local VARCHAR(255) NOT NULL,
+    vagas INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS inscricoes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    evento_id BIGINT NOT NULL,
+    participante_id BIGINT NOT NULL,
+    UNIQUE KEY uq_inscricao (evento_id, participante_id),
+    FOREIGN KEY (evento_id) REFERENCES eventos(id) ON DELETE CASCADE,
+    FOREIGN KEY (participante_id) REFERENCES participantes(id) ON DELETE CASCADE
+);
